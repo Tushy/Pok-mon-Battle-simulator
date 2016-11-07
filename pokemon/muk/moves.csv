@@ -1,0 +1,5 @@
+attack_name;attack_type;attack_accuracy;attack_power
+dig;ground;100;80
+frustration;normal;100;
+rock-tomb;rock;95;60
+strength;normal;100;80
