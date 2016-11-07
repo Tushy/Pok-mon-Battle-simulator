@@ -1,0 +1,5 @@
+attack_name;attack_type;attack_accuracy;attack_power
+power-whip;grass;85;120
+synthesis;grass;;
+sludge;poison;100;65
+magical-leaf;grass;;60

@@ -59,19 +59,19 @@ def pokemon():
                             c += 1
                             schrijver.writerow({'attack_name': move_name1, 'attack_type': move_type1, 'attack_accuracy': move_accuracy1, 'attack_power': move_power1})
     else:
-        with open('./pokemon/%s.csv' % inputerino, encoding='utf-8', mode='r') as file:
+        with open('./pokemon/%s/stats.csv' % inputerino, encoding='utf-8', mode='r') as file:
             file = csv.DictReader(file, delimiter=';')
-            for line in file:
-                naam = line[0]  # Zet de naam in een variabele voor de return functie
-                type = line[0].replace('[', '').replace(']', '').replace("'", "")  # Stript de string van alle extra karakters
-                speed = line[0]
-                special_defense = line[0]
-                special_attack = line[0]
-                defense = line[0]
-                attack = line[0]
-                hp = line[0]
-            print('{}\nType is: {}\nSpeed: {}\nSpDef: {}\nSpAtt: {}\nDef: {}\nAttack: {}\nHP: {}\n'.format(naam, type, speed, special_defense, special_attack, defense, attack, hp))
-            return naam, type, speed, special_defense, special_attack, defense, attack, hp
+            for row in file:
+                name = row[0]  # Zet de naam in een variabele voor de return functie
+                type = row[1].replace('[', '').replace(']', '').replace("'", "")  # Stript de string van alle extra karakters
+                speed = row[2]
+                special_defense = row[3]
+                special_attack = row[4]
+                defense = row[5]
+                attack = row[6]
+                hp = row[7]
+            print('{}\nType is: {}\nSpeed: {}\nSpDef: {}\nSpAtt: {}\nDef: {}\nAttack: {}\nHP: {}\n'.format(name, type, speed, special_defense, special_attack, defense, attack, hp))
+            return name, type, speed, special_defense, special_attack, defense, attack, hp
 
 
 print(pokemon())
