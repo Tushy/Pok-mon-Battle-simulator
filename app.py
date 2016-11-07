@@ -21,7 +21,7 @@ def pokemon():
             for i in pokemon_json['results']:
                 if inputerino == i['name']:
                     naam = (i['name'])  # Zet de naam van de pokémon om in een variabele
-                    fieldnames = ['naam', 'type', 'speed', 'special-defense', 'special-attack', 'defense', 'attack', 'hp', 'move1_name', 'move1_type', 'move1_accur', 'move1_power']  # definieert de veldnamen voor het .csv bestand
+                    fieldnames = ['naam', 'type', 'speed', 'special-defense', 'special-attack', 'defense', 'attack', 'hp', 'attack_name', 'attack_type', 'attack_accuracy', 'attack_power']  # definieert de veldnamen voor het .csv bestand
                     writer = csv.DictWriter(file, fieldnames=fieldnames, delimiter=';', lineterminator='\n')
                     STATS = requests.get(i['url'])  # Vraagt een nieuwe URL aan.
                     STATS_JSON = json.loads(STATS.text)  # Decode de data in de nieuwe URL.
@@ -31,6 +31,7 @@ def pokemon():
                         t.append(i['type']['name'])
                     for i in STATS_JSON['stats']:  # Voegt de verschillende stats met bijbehorende naam toe aan de dict met key=naam value=waarde van stat
                         stats.update({(i['stat']['name']): (i['base_stat'])})
+                    writer.writerow({'naam': naam, 'type': t, 'speed': stats['speed'], 'special-defense': stats['special-defense'], 'special-attack': stats['special-attack'], 'defense': stats['defense'], 'attack': stats['attack'], 'hp': stats['hp']})  # schrijft de waardes naar het bestand
                     h = 0
                     lst = []
                     while h < 4:
@@ -45,15 +46,12 @@ def pokemon():
                         m = STATS_JSON['moves'][lst[c]]
                         MOVE = requests.get(m['move']['url'])  # Vraagt een nieuwe URL aan.
                         MOVE_JSON = json.loads(MOVE.text)  # Decode de data in de nieuwe URL.
-
-
-                        print(m['move']['name'])
-                        print('type is: ' +MOVE_JSON['type']['name'])
-                        print('accuracy is: ' +str(MOVE_JSON['accuracy']))
-                        print('power is: ' +str(MOVE_JSON['power'] ))
-                        print('')
+                        move_name1 = m['move']['name']
+                        move_type1 = MOVE_JSON['type']['name']
+                        move_accuracy1 = MOVE_JSON['accuracy']
+                        move_power1 = MOVE_JSON['power']
                         c += 1
-                    writer.writerow({'naam': naam, 'type': t, 'speed': stats['speed'], 'special-defense': stats['special-defense'], 'special-attack': stats['special-attack'], 'defense': stats['defense'], 'attack': stats['attack'], 'hp': stats['hp'], }) # schrijft de waardes naar het bestand
+                        writer.writerow({'attack_name': move_name1, 'attack_type': move_type1, 'attack_accuracy': move_accuracy1, 'attack_power': move_power1})
     else:
         with open('./pokemon/%s.csv' % inputerino, encoding='utf-8', mode='r') as file:
             file = csv.reader(file, delimiter=';')
