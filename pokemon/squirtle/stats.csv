@@ -1,2 +1,2 @@
 name;type;speed;special_defense;special_attack;defense;attack;hp
-bulbasaur;['poison', 'grass'];45;65;65;49;49;45
+squirtle;['water'];43;64;50;65;48;44

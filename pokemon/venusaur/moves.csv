@@ -1,0 +1,5 @@
+attack_name;attack_type;attack_accuracy;attack_power
+leech-seed;grass;90;
+facade;normal;100;70
+poison-powder;poison;75;
+bulldoze;ground;100;60

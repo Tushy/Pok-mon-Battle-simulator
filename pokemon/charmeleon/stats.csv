@@ -1,2 +1,2 @@
 name;type;speed;special_defense;special_attack;defense;attack;hp
-bulbasaur;['poison', 'grass'];45;65;65;49;49;45
+charmeleon;['fire'];80;65;80;58;64;58

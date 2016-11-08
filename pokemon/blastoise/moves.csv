@@ -1,0 +1,5 @@
+attack_name;attack_type;attack_accuracy;attack_power
+attract;normal;100;
+withdraw;water;;
+endure;normal;;
+gyro-ball;steel;100;

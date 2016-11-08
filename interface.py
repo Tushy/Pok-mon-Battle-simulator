@@ -1,6 +1,13 @@
 from tkinter import *
 from PIL import Image, ImageTk
 
+import matplotlib.pyplot as plt;
+
+plt.rcdefaults()
+import numpy as np
+import matplotlib.pyplot as plt
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+
 root = Tk()
 root.wm_title('PBS - Pokémon Battle Station')
 root.state('zoomed')
@@ -46,13 +53,30 @@ pokemon_2_type = Label(right, text='Cretin')
 pokemon_1_type.grid(row=2, column=0, sticky=NW)
 pokemon_2_type.grid(row=2, column=0, sticky=NW)
 
+# Stats kek
+
+pokemon_1_stats = ('HP', 'Attack', 'Defense', 'Speed', 'SP Attack', 'SP Defense')[::-1]
+y_pos = np.arange(len(pokemon_1_stats))
+performance = [100, 53, 45, 23, 87, 94]
+
+fig = plt.figure(1)
+fig.patch.set_alpha(0)
+fig.add_subplot(111).patch.set_alpha(0)
+plt.barh(y_pos, performance, align='center', alpha=.5)
+plt.yticks(y_pos, pokemon_1_stats)
+
+canvas = FigureCanvasTkAgg(fig, master=left)
+canvas.get_tk_widget().config(width=width * 0.25, height=height * 0.25)
+canvas.get_tk_widget().grid(row=1, column=1, sticky=NW)
+
+'''
 pokemon_1_stats = ['1', '2', '3', '4']
 pokemon_2_stats = ['1', '2', '3', '4']
 pokemon_1_stats = Label(left, text='\n\n'.join(pokemon_1_stats))
 pokemon_2_stats = Label(right, text='\n\n'.join(pokemon_2_stats))
 pokemon_1_stats.grid(row=1, column=1, sticky=NW)
 pokemon_2_stats.grid(row=1, column=1, sticky=NW)
-
+'''
 
 pokemon_1_moves = ['1', '2', '3', '4']
 pokemon_2_moves = ['1', '2', '3', '4']
@@ -73,7 +97,8 @@ for i in pokemon_2_moves:
 # Start functie
 def callback():
     text_box.config(
-        text='THE FIRST POKEMON IS: ' + pokemon_1_var.get().upper() + '!\nTHE SECOND POKEMON IS: ' + pokemon_2_var.get().upper() + '!', justify=LEFT)
+        text='THE FIRST POKEMON IS: ' + pokemon_1_var.get().upper() + '!\nTHE SECOND POKEMON IS: ' + pokemon_2_var.get().upper() + '!',
+        justify=LEFT)
 
 
 start = Button(text='Start', command=callback)

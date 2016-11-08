@@ -1,2 +1,2 @@
 name;type;speed;special_defense;special_attack;defense;attack;hp
-bulbasaur;['poison', 'grass'];45;65;65;49;49;45
+grimer;['poison'];25;50;40;50;80;80

@@ -1,0 +1,5 @@
+attack_name;attack_type;attack_accuracy;attack_power
+sky-attack;flying;90;140
+protect;normal;;
+after-you;normal;;
+swift;normal;;60

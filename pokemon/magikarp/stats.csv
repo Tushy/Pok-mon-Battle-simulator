@@ -1,2 +1,2 @@
 name;type;speed;special_defense;special_attack;defense;attack;hp
-bulbasaur;['poison', 'grass'];45;65;65;49;49;45
+magikarp;['water'];80;20;15;55;10;20
