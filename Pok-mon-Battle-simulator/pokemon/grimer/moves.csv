@@ -1,0 +1,5 @@
+attack_name;attack_type;attack_accuracy;attack_power
+acid-spray;poison;100;40
+thunderbolt;electric;100;90
+shadow-sneak;ghost;100;40
+mud-slap;ground;100;20

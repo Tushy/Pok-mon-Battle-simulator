@@ -1,0 +1,5 @@
+attack_name;attack_type;attack_accuracy;attack_power
+earthquake;ground;100;100
+growl;normal;100;
+smokescreen;normal;100;
+focus-blast;fighting;70;120

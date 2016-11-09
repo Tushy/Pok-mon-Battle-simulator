@@ -1,0 +1,5 @@
+attack_name;attack_type;attack_accuracy;attack_power
+water-pulse;water;100;60
+tackle;normal;100;50
+frustration;normal;100;
+whirlpool;water;85;35

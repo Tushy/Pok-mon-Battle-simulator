@@ -1,0 +1,5 @@
+attack_name;attack_type;attack_accuracy;attack_power
+toxic;poison;90;
+clear-smog;poison;;50
+magical-leaf;grass;;60
+snore;normal;100;50

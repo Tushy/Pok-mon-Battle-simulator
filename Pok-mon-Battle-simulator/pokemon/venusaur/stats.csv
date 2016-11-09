@@ -1,0 +1,2 @@
+name;type;speed;special_defense;special_attack;defense;attack;hp
+venusaur;['poison', 'grass'];80;100;100;83;82;80

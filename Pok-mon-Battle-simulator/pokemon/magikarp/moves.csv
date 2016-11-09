@@ -1,0 +1,11 @@
+attack_name;attack_type;attack_accuracy;attack_power
+<<<<<<< HEAD
+bounce;flying;85;85
+splash;normal;;
+flail;normal;100;
+tackle;normal;100;50
+=======
+tackle;normal;100;50
+bounce;flying;85;85
+splash;normal;;
+>>>>>>> origin/master

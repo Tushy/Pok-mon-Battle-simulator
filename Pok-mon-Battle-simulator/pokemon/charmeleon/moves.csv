@@ -1,0 +1,5 @@
+attack_name;attack_type;attack_accuracy;attack_power
+dynamic-punch;fighting;50;100
+secret-power;normal;100;70
+swagger;normal;90;
+curse;ghost;;
