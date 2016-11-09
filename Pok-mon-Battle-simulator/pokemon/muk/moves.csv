@@ -1,0 +1,5 @@
+attack_name;attack_type;attack_accuracy;attack_power
+power-up-punch;fighting;100;40
+sunny-day;fire;;
+thief;dark;100;60
+swagger;normal;90;

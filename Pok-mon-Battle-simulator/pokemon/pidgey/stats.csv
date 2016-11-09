@@ -1,0 +1,2 @@
+name;type;speed;special_defense;special_attack;defense;attack;hp
+pidgey;['flying', 'normal'];56;35;35;40;45;40

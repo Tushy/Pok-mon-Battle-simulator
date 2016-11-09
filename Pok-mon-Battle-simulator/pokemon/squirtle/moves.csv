@@ -1,0 +1,5 @@
+attack_name;attack_type;attack_accuracy;attack_power
+seismic-toss;fighting;100;
+yawn;normal;;
+substitute;normal;;
+water-gun;water;100;40
