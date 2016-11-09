@@ -65,13 +65,13 @@ pokemon_2_stats.grid(row=1, column=1, sticky='nw')
 
 
 def p1_attack1():
-    text_box.config(text='Pokemon 1 uses attack 1', justify=LEFT)
+    listbox.insert('0', str('Pokemon 1 attack 1'))
 def p1_attack2():
-    text_box.config(text='Pokemon 1 uses attack 2', justify=LEFT)
+    listbox.insert('0', str('Pokemon 1 attack 2'))
 def p1_attack3():
-    text_box.config(text='Pokemon 1 uses attack 3', justify=LEFT)
+    listbox.insert('0', str('Pokemon 1 attack 3'))
 def p1_attack4():
-    text_box.config(text='Pokemon 1 uses attack 4', justify=LEFT)
+    listbox.insert('0', str('Pokemon 1 attack 4'))
 
 pokemon_1_move_1 = Button(left, padx=100, pady= 1, text='attack 1', command=p1_attack1)
 pokemon_1_move_1.grid(row=3, column=0,sticky=W )
@@ -87,13 +87,13 @@ pokemon_1_move_4.grid(row=4, column=1, sticky=W)
 
 
 def p2_attack1():
-    text_box.config(text='Pokemon 2 uses attack 1', justify=LEFT)
+    listbox.insert('0', str('Pokemon 2 attack 1'))
 def p2_attack2():
-    text_box.config(text='Pokemon 2 uses attack 2', justify=LEFT)
+    listbox.insert('0', str('Pokemon 2 attack 2'))
 def p2_attack3():
-    text_box.config(text='Pokemon 2 uses attack 3', justify=LEFT)
+    listbox.insert('0', str('Pokemon 2 attack 3'))
 def p2_attack4():
-    text_box.config(text='Pokemon 2 uses attack 4', justify=LEFT)
+    listbox.insert('0', str('Pokemon 2 attack 4'))
 
 pokemon_2_move_1 = Button(right, padx=100, pady= 1, text='attack 1', command=p2_attack1)
 pokemon_2_move_1.grid(row=3, column=0,sticky=W )
@@ -109,15 +109,20 @@ pokemon_2_move_4.grid(row=4, column=1, sticky=W)
 
 # Start functie
 def callback():
-    text_box.config(
-        text='THE FIRST POKEMON IS: ' + pokemon_1_var.get().upper() + '!\nTHE SECOND POKEMON IS: ' + pokemon_2_var.get().upper() + '!',
-        justify=LEFT)
+    listbox.insert('0', str('Pokemon start your engines!'))
+
+#scroll text box
+scrollbar = Scrollbar(bottom)
+scrollbar.pack(side=RIGHT, fill=Y)
+listbox = Listbox(bottom, yscrollcommand=scrollbar.set, width=width)
+listbox.pack(side=LEFT, fill=BOTH)
+scrollbar.config(command=listbox.yview)
 
 
-start = Button(text='Start', command=callback)
+
+start = Button(text='Fight!', command=callback)
 start.place(relx=0.5, rely=0.5, anchor=CENTER)
 
-text_box = Label(bottom, text='Pikachu is nu aan de beurt!', height=5)
-text_box.grid(padx=20, pady=1, sticky=NW)
+
 
 root.mainloop()
