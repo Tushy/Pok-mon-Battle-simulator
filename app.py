@@ -46,12 +46,11 @@ def gotta_catch_em_all(x):
         if x == i['name']:
             STATS = requests.get(i['url'])  # Vraagt een nieuwe URL aan.
             pokemon_stats = json.loads(STATS.text)  # Decode de data in de nieuwe URL.
-    print(pokemon_stats['sprites']['front_default'])
     # Functie voor de eerste pokémon. Als deze al bestaat wordt de database gebruikt, anders wordt er een nieuwe entry gemaakt
-    bestandsnaam = './pokemon/%s/'
-    if not os.path.exists(bestandsnaam % x):  # kijkt of de input al bestaat in de map ./pokemon/
-        os.makedirs('./pokemon/%s/' % x)
-        with open('./pokemon/%s/stats.csv' % x, encoding='utf-8',
+    bestandsnaam = './pokemon/%s/' % x
+    if not os.path.exists(bestandsnaam):  # kijkt of de input al bestaat in de map ./pokemon/
+        os.makedirs(bestandsnaam)
+        with open(bestandsnaam + 'stats.csv', encoding='utf-8',
                   mode='w') as file:  # Als deze niet bestaat wordt dit aangemaakt
             for i in list_of_pokemon():
                 if x == i['name']:
@@ -74,7 +73,7 @@ def gotta_catch_em_all(x):
                          'special_defense': stats['special-defense'],
                          'special_attack': stats['special-attack'], 'defense': stats['defense'],
                          'attack': stats['attack'], 'hp': stats['hp']})  # schrijft de waardes naar het bestand
-                    #  request.urlretrieve(pokemon_stats['sprites']['front_default'], './pokemon/%s/' + x + '.jpg')
+                    request.urlretrieve(pokemon_stats['sprites']['front_default'], bestandsnaam + x + '.png')
     # Haalt de moves op uit het JSON bestand en maakt een lijst met 4 dicts voor de moves
     for i in list_of_pokemon():
         if x == i['name']:
@@ -102,6 +101,4 @@ def gotta_catch_em_all(x):
                     {'attack_name': move_name1, 'attack_type': move_type1, 'attack_accuracy': move_accuracy1,
                      'attack_power': move_power1})
     return moves_list
-
-
-print(gotta_catch_em_all('magikarp'))
+gotta_catch_em_all('magikarp')
