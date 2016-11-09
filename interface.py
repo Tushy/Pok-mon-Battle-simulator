@@ -1,13 +1,6 @@
 from tkinter import *
 from PIL import Image, ImageTk
 
-import matplotlib.pyplot as plt;
-
-plt.rcdefaults()
-import numpy as np
-import matplotlib.pyplot as plt
-from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
-
 root = Tk()
 root.wm_title('PBS - Pokémon Battle Station')
 root.state('zoomed')
@@ -26,21 +19,27 @@ left.grid(row=0, column=0, sticky='nesw', padx=40, pady=(40, 20))
 right.grid(row=0, column=1, sticky='nesw', padx=40, pady=(40, 20))
 bottom.grid(row=1, columnspan=2, sticky='nesw', padx=40, pady=(20, 40))
 
+#background
+
+
+image_background = Image.open('t.jpeg')
+
+
 # Label content
 pokemon_1_var = StringVar(root)
 pokemon_2_var = StringVar(root)
-pokemon_1_var.set('Pokemon 1')
-pokemon_2_var.set('Pokemon 2')
+pokemon_1_var.set('Kies Pokémon 1')
+pokemon_2_var.set('Kies Pokémon 2')
 
 pokemon_1 = OptionMenu(left, pokemon_1_var, 'Hillary Clintcunt', 'Hillary', 'Hillary_1')
-pokemon_2 = OptionMenu(right, pokemon_2_var, 'Donald Trumpcunt', 'Trump', 'Trump_1')
+pokemon_2 = OptionMenu(right, pokemon_2_var, 'Donald Trumpcunt', 'Trump', 'Trump_1', 'kut pokemon')
 pokemon_1.grid(row=0, column=0, sticky=NW)
 pokemon_2.grid(row=0, column=0, sticky=NW)
 
 image_1 = Image.open('h.jpg')
 image_2 = Image.open('t.jpeg')
-image_1 = image_1.resize((int(width * 0.25), int(height * 0.25)), Image.ANTIALIAS)
-image_2 = image_2.resize((int(width * 0.25), int(height * 0.25)), Image.ANTIALIAS)
+image_1 = image_1.resize((int(width * 0.1), int(height * 0.1)), Image.ANTIALIAS)
+image_2 = image_2.resize((int(width * 0.1), int(height * 0.1)), Image.ANTIALIAS)
 pokemon_1_img_load = ImageTk.PhotoImage(image_1)
 pokemon_2_img_load = ImageTk.PhotoImage(image_2)
 pokemon_1_img = Label(left, image=pokemon_1_img_load)
@@ -55,44 +54,62 @@ pokemon_2_type.grid(row=2, column=0, sticky=NW)
 
 # Stats kek
 
-pokemon_1_stats = ('HP', 'Attack', 'Defense', 'Speed', 'SP Attack', 'SP Defense')[::-1]
-y_pos = np.arange(len(pokemon_1_stats))
-performance = [100, 53, 45, 23, 87, 94]
 
-fig = plt.figure(1)
-fig.patch.set_alpha(0)
-fig.add_subplot(111).patch.set_alpha(0)
-plt.barh(y_pos, performance, align='center', alpha=.5)
-plt.yticks(y_pos, pokemon_1_stats)
 
-canvas = FigureCanvasTkAgg(fig, master=left)
-canvas.get_tk_widget().config(width=width * 0.25, height=height * 0.25)
-canvas.get_tk_widget().grid(row=1, column=1, sticky=NW)
 
-'''
-pokemon_1_stats = ['1', '2', '3', '4']
-pokemon_2_stats = ['1', '2', '3', '4']
+
+
+
+pokemon_1_stats = ('HP', 'Attack Power')
+pokemon_2_stats = ('HP', 'Attack Power')
 pokemon_1_stats = Label(left, text='\n\n'.join(pokemon_1_stats))
 pokemon_2_stats = Label(right, text='\n\n'.join(pokemon_2_stats))
 pokemon_1_stats.grid(row=1, column=1, sticky=NW)
 pokemon_2_stats.grid(row=1, column=1, sticky=NW)
-'''
 
-pokemon_1_moves = ['1', '2', '3', '4']
-pokemon_2_moves = ['1', '2', '3', '4']
 
-c = 3
-for i in pokemon_1_moves:
-    i = Label(left, text=i)
-    i.grid(row=c, column=0, sticky=NW)
-    c += 1
+def p1_attack1():
+    text_box.config(text='Pokemon 1 uses attack 1', justify=LEFT)
+def p1_attack2():
+    text_box.config(text='Pokemon 1 uses attack 2', justify=LEFT)
+def p1_attack3():
+    text_box.config(text='Pokemon 1 uses attack 3', justify=LEFT)
+def p1_attack4():
+    text_box.config(text='Pokemon 1 uses attack 4', justify=LEFT)
 
-c = 3
-for i in pokemon_2_moves:
-    i = Label(right, text=i)
-    i.grid(row=c, column=0, sticky=NW)
-    c += 1
+pokemon_1_move_1 = Button(left, padx=110, pady= 20, text='attack 1', command=p1_attack1)
+pokemon_1_move_1.grid(row=3, column=0,sticky=W )
 
+pokemon_1_move_2 = Button(left, padx=110, pady= 20, text='attack 2', command=p1_attack2)
+pokemon_1_move_2.grid(row=3, column=1,sticky=W)
+
+pokemon_1_move_3 = Button(left, padx=110, pady= 20, text='attack 3', command=p1_attack3)
+pokemon_1_move_3.grid(row=4, column=0, sticky=W)
+
+pokemon_1_move_4 = Button(left, padx=110, pady= 20, text='attack 4', command=p1_attack4)
+pokemon_1_move_4.grid(row=4, column=1, sticky=W)
+
+
+def p2_attack1():
+    text_box.config(text='Pokemon 2 uses attack 1', justify=LEFT)
+def p2_attack2():
+    text_box.config(text='Pokemon 2 uses attack 2', justify=LEFT)
+def p2_attack3():
+    text_box.config(text='Pokemon 2 uses attack 3', justify=LEFT)
+def p2_attack4():
+    text_box.config(text='Pokemon 2 uses attack 4', justify=LEFT)
+
+pokemon_2_move_1 = Button(right, padx=100, pady= 20, text='attack 1', command=p2_attack1)
+pokemon_2_move_1.grid(row=3, column=0,sticky=W )
+
+pokemon_2_move_2 = Button(right, padx=100, pady= 20, text='attack 2', command=p2_attack2)
+pokemon_2_move_2.grid(row=3, column=1,sticky=W)
+
+pokemon_2_move_3 = Button(right, padx=100, pady= 20, text='attack 3', command=p2_attack3)
+pokemon_2_move_3.grid(row=4, column=0, sticky=W)
+
+pokemon_2_move_4 = Button(right, padx=100, pady= 20, text='attack 4', command=p2_attack4)
+pokemon_2_move_4.grid(row=4, column=1, sticky=W)
 
 # Start functie
 def callback():
