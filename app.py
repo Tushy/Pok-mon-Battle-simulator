@@ -52,25 +52,25 @@ def moves(x):
                 h = 0
                 lst = []
                 while h < 4:
-                    r = randint(0,len(STATS_JSON['moves']))
+                    r = randint(0,len(STATS_JSON['moves'])-1)
                     if r not in lst:
                         lst.append(r)
                         h += 1
                     else:
                         pass
                 c = 0
-                print(lst)
-                while c < 4:
-                    m = STATS_JSON['moves'][lst[c]]
+                while c < 1:
+                    m = STATS_JSON['moves'][c]
                     MOVE = requests.get(m['move']['url'])  # Vraagt een nieuwe URL aan.
                     MOVE_JSON = json.loads(MOVE.text)  # Decode de data in de nieuwe URL.
-                    move_name1 = m['move']['name']
-                    move_type1 = MOVE_JSON['type']['name']
-                    move_accuracy1 = MOVE_JSON['accuracy']
-                    move_power1 = MOVE_JSON['power']
+                    print(MOVE_JSON)
+                    # move_name1 = m['move']['name']
+                    # move_type1 = MOVE_JSON['type']['name']
+                    # move_accuracy1 = MOVE_JSON['accuracy']
+                    # move_power1 = MOVE_JSON['power']
                     c += 1
-                    schrijver.writerow({'attack_name': move_name1, 'attack_type': move_type1, 'attack_accuracy': move_accuracy1, 'attack_power': move_power1})
+                    # schrijver.writerow({'attack_name': move_name1, 'attack_type': move_type1, 'attack_accuracy': move_accuracy1, 'attack_power': move_power1})
 
-print(pokemon(inputerino))
+pokemon(inputerino)
 print(30*'*' + '\n' + 12*'-' + 'Fight!' + 12*'-' + '\n' + 30*'*')
 
