@@ -1,5 +1,0 @@
-attack_name;attack_type;attack_accuracy;attack_power
-cut;normal;95;50
-bite;dark;100;60
-rest;psychic;;
-blizzard;ice;70;110
