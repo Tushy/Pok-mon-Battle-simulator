@@ -34,8 +34,12 @@ pokemon_2_var.set('Kies Pokémon 2')
 
 
 #drop down menu pokemon
-pokemon_1 = OptionMenu(left, pokemon_1_var, *get_pokemons()) #get_pokemons komt vanaf bestand all_pokemon_to_file.py
-pokemon_2 = OptionMenu(right, pokemon_2_var, *get_pokemons())
+def OptionMenu_pokemon_1(event):
+    listbox.insert('0','RED HEEFT ' +pokemon_1_var.get().upper()+ ' GEKOZEN!')
+def OptionMenu_pokemon_2(event):
+    listbox.insert('0',"BLUE HEEFT " +pokemon_2_var.get().upper() +' GEKOZEN!')
+pokemon_1 = OptionMenu(left, pokemon_1_var, *get_pokemons(), command= OptionMenu_pokemon_1) #get_pokemons komt vanaf bestand all_pokemon_to_file.py
+pokemon_2 = OptionMenu(right, pokemon_2_var, *get_pokemons(), command= OptionMenu_pokemon_2)
 pokemon_1.grid(row=0, column=0, sticky=NW)
 pokemon_2.grid(row=0, column=0, sticky=NW)
 
@@ -49,8 +53,16 @@ pokemon_1_img_load = ImageTk.PhotoImage(image_1)
 pokemon_2_img_load = ImageTk.PhotoImage(image_2)
 pokemon_1_img = Label(left, image=pokemon_1_img_load)
 pokemon_2_img = Label(right, image=pokemon_2_img_load)
-pokemon_1_img.grid(row=1, column=0, sticky='nw')
-pokemon_2_img.grid(row=1, column=0, sticky='nw')
+pokemon_1_img.grid(row=1, column=1, sticky='nw')
+pokemon_2_img.grid(row=1, column=1, sticky='nw')
+
+# Stats
+pokemon_1_stats = ('HP', 'Attack Power')
+pokemon_2_stats = ('HP', 'Attack Power')
+pokemon_1_stats = Label(left, text='\n\n'.join(pokemon_1_stats))
+pokemon_2_stats = Label(right, text='\n\n'.join(pokemon_2_stats))
+pokemon_1_stats.grid(row=1, column=0, sticky='w')
+pokemon_2_stats.grid(row=1, column=0, sticky='w')
 
 #tekst onder plaatje
 pokemon_1_type = Label(left, text='MOVES POKÉMON')
@@ -58,13 +70,6 @@ pokemon_2_type = Label(right, text='MOVES POKÉMON')
 pokemon_1_type.grid(row=2, column=0, sticky=NW)
 pokemon_2_type.grid(row=2, column=0, sticky=NW)
 
-# Stats
-pokemon_1_stats = ('HP', 'Attack Power')
-pokemon_2_stats = ('HP', 'Attack Power')
-pokemon_1_stats = Label(left, text='\n\n'.join(pokemon_1_stats))
-pokemon_2_stats = Label(right, text='\n\n'.join(pokemon_2_stats))
-pokemon_1_stats.grid(row=1, column=1, sticky='nw')
-pokemon_2_stats.grid(row=1, column=1, sticky='nw')
 
 #buttons moves pokémon 1
 def p1_attack1():
@@ -127,7 +132,6 @@ scrollbar.config(command=listbox.yview)
 
 start = Button(text='Fight!', command=callback)
 start.place(relx=0.5, rely=0.5, anchor=CENTER)
-
 
 
 root.mainloop()
