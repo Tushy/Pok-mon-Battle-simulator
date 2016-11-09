@@ -113,8 +113,3 @@ def algemeen(z):
     pokemon_stats = pokemon_stats_list()
     list_of_pokemon()
     pokemon(z, pokemon_stats)
-
-
-inputerino = input('Stats van pokemon ').lower()
-print(algemeen(inputerino))
-print(30 * '*' + '\n' + 12 * '-' + 'Fight!' + 12 * '-' + '\n' + 30 * '*')
