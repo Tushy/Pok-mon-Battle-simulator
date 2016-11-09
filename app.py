@@ -101,4 +101,3 @@ def gotta_catch_em_all(x):
                     {'attack_name': move_name1, 'attack_type': move_type1, 'attack_accuracy': move_accuracy1,
                      'attack_power': move_power1})
     return moves_list
-gotta_catch_em_all('magikarp')
