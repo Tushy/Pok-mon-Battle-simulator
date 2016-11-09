@@ -32,7 +32,6 @@ class pokemonThread(threading.Thread):
     def change_hp(self, damage):
         self.hp = self.hp - damage
         return (self.hp)
-
 def get_hp():
     return (125)
 def pokemon(x):
@@ -109,36 +108,28 @@ def read_moves(pokemon, soort):
                 lijst_moves.append(attack_type)
 
         return (lijst_moves)
+def create_threads():
+    threadLock = threading.Lock()
+    threads = []
+    # Create new threads
+    pokemon1 = input('choose pokemon 1')
+    pokemon2 = input('choose pokemon 2')
+    thread1 = pokemonThread(1, pokemon1, 1)
+    thread2 = pokemonThread(2, pokemon2, 2)
 
 
-threadLock = threading.Lock()
-threads = []
 
-# Create new threads
-pokemon1 = input('choose pokemon 1')
-pokemon2 = input('choose pokemon 2')
-thread1 = pokemonThread(1, pokemon1, 1)
-thread2 = pokemonThread(2, pokemon2, 2)
+    # Start new Threads
+    thread1.start()
+    thread2.start()
 
-# Start new Threads
-thread1.start()
-thread2.start()
+    # Add threads to thread list
+    threads.append(thread1)
+    threads.append(thread2)
 
-# Add threads to thread list
-threads.append(thread1)
-threads.append(thread2)
-
-thread1.join()
-thread2.join()
-thread1.load_hp()
-thread2.load_hp()
-thread1.load_moves()
-thread2.load_moves()
-thread1.change_hp(thread2.attack_power2)
-thread2.change_hp(25)
-
-
-thread1.join()
-thread2.join()
-print(' hp of %s is:' % thread1.name, thread1.hp)
-print(' hp of %s is:' % thread2.name, thread2.hp)
+    thread1.join()
+    thread2.join()
+    thread1.load_hp()
+    thread2.load_hp()
+    thread1.load_moves()
+    thread2.load_moves()
