@@ -6,7 +6,7 @@ from random import randint
 
 
 def list_of_pokemon():
-    # Haal alle pokemon namen en url's op.
+    "Haal alle pokemon namen en url's op."
     while 1:
         if os.path.isfile('pokemon_list.csv'):
             with open('pokemon_list.csv', 'r') as f:
@@ -44,17 +44,13 @@ def pokemon_stats_list():
         if inputerino == i['name']:
             STATS = requests.get(i['url'])  # Vraagt een nieuwe URL aan.
             STATS_JSON = json.loads(STATS.text)  # Decode de data in de nieuwe URL.
-
     return STATS_JSON
 
 
-inputerino = 'mew'  # input('Stats van pokemon één: ').lower()
-pokemon_stats = pokemon_stats_list()
-
-
-def pokemon(x):
+def pokemon(x, y):
     'Functie voor de eerste pokémon. Als deze al bestaat wordt de database gebruikt, anders wordt er een nieuwe entry gemaakt'
     inputerino = x
+    pokemon_stats = y
     if not os.path.exists('./pokemon/%s/stats.csv' % inputerino):  # kijkt of de input al bestaat in de map ./pokemon/
         os.makedirs('./pokemon/%s/' % inputerino)
         with open('./pokemon/%s/stats.csv' % inputerino, encoding='utf-8',
@@ -89,7 +85,7 @@ def moves(x):
             h = 0
             lst = []
             while h < 4:
-                r = randint(0, len(pokemon_stats['moves']))
+                r = randint(0, len(pokemon_stats['moves']) - 1)
                 if r not in lst:
                     lst.append(r)
                     h += 1
@@ -112,5 +108,13 @@ def moves(x):
     return moves_list
 
 
-print(pokemon(inputerino))
+def algemeen(z):
+    global pokemon_stats
+    pokemon_stats = pokemon_stats_list()
+    list_of_pokemon()
+    pokemon(z, pokemon_stats)
+
+
+inputerino = input('Stats van pokemon ').lower()
+print(algemeen(inputerino))
 print(30 * '*' + '\n' + 12 * '-' + 'Fight!' + 12 * '-' + '\n' + 30 * '*')
