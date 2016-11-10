@@ -43,8 +43,9 @@ def OptionMenu_pokemon_1(event):
                             '\n Defense: '+read_stats(pokemon_1_var.get())[0]['defense']+
                             '\n Special Defense: '+read_stats(pokemon_1_var.get())[0]['special_defense'])
     if pokemon_1_var != 'Kies Pokémon 1':
-        image_ophalen()
-
+        image_ophalen1()
+    if pokemon_1_var != 'Kies Pokémon 1':
+        image_ophalen2()
 
 def OptionMenu_pokemon_2(event):
     listbox.insert('0','BlUE HEEFT ' +pokemon_2_var.get().upper()+ ' GEKOZEN!') # laat zien welke pokemon er is gekozen
@@ -62,11 +63,17 @@ pokemon_2 = OptionMenu(right, pokemon_2_var, *list_of_pokemon()[1], command= Opt
 pokemon_1.grid(row=0, column=0, sticky=NW)
 pokemon_2.grid(row=0, column=0, sticky=NW)
 
-def image_ophalen():
+def image_ophalen1():
     #image vervangen
         image_1 = PhotoImage(file='./pokemon/'+pokemon_1_var.get()+'/'+pokemon_1_var.get()+'.png')
         image_1.image = image_1
         image_1_label.config(image=image_1)
+
+def image_ophalen2():
+    #image vervangen
+        image_2 = PhotoImage(file='./pokemon/'+pokemon_2_var.get()+'/'+pokemon_2_var.get()+'.png')
+        image_2.image = image_2
+        image_2_label.config(image=image_2)
 
 #plaatjes pokeballs en pokemons
 image_1 = PhotoImage(file='pokeball.gif')
