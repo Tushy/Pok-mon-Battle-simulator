@@ -119,4 +119,3 @@ def read_stats(pokemon):
 
     return stats_dict
 
-print(gotta_catch_em_all('mew'))
