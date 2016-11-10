@@ -31,6 +31,7 @@ def list_of_pokemon():
             pokemon = requests.get(base)  # Vraagt de lijst met alle pokemon aan.
             pokemon_json = json.loads(pokemon.text)  # Decode de lijst met pokemon.
 
+            os.makedirs('./pokemon/')
             with open('./pokemon/pokemon_list.csv',
                       'w') as f:  # Als het bestand nog niet bestaat, maak deze dan aan en vul het met data
                 fieldnames = ['number', 'name', 'url']
@@ -134,9 +135,10 @@ def gotta_catch_em_all(x):  # x is hier de input van het dropdown menu in het in
 def read_stats(x):
     with open('./pokemon/%s/stats.csv' % x, 'r') as file:
         reader = csv.DictReader(file, delimiter=';')
-
         stats_dict = []
         for row in reader:
             stats_dict.append(row)
 
     return stats_dict
+
+list_of_pokemon()
