@@ -88,7 +88,7 @@ def gotta_catch_em_all(x):  # x is hier de input van het dropdown menu in het in
                          'special_attack': stats['special-attack'], 'defense': stats['defense'],
                          'attack': stats['attack'], 'hp': stats['hp']})  # schrijft de waardes naar het bestand
                     request.urlretrieve(pokemon_stats['sprites']['front_default'],
-                                        bestandsnaam + x + '.png')  # Haalt een sprite op van de pokémon
+                                        bestandsnaam + x + '.jpg')  # Haalt een sprite op van de pokémon
 
     # Haalt de moves op uit het JSON bestand en maakt een lijst met 4 dicts voor de moves
     for pokemon in list_of_pokemon()[
