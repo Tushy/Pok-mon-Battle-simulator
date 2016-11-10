@@ -9,12 +9,16 @@ from urllib import request
 def list_of_pokemon():
     "Haal alle pokemon namen en url's op."
     while 1:
-        if os.path.isfile('pokemon_list.csv'):  # Controlleer of er al een bestand bestaat dat pokemon_list.csv heet
-            with open('pokemon_list.csv', 'r') as f:  # Als het bestand al bestaat, voeg de data dan toe aan een lijst.
+        if os.path.isfile(
+                './pokemon/pokemon_list.csv'):  # Controlleer of er al een bestand bestaat dat pokemon_list.csv heet
+            with open('./pokemon/pokemon_list.csv',
+                      'r') as f:  # Als het bestand al bestaat, voeg de data dan toe aan een lijst.
                 r = csv.DictReader(f, delimiter=';')
                 lst_of_pokemon = []
+                pokemon_names = []
                 for i in r:
                     lst_of_pokemon.append({'number': i['number'], 'name': i['name'], 'url': i['url']})
+                    pokemon_names.append(i['name'])
             break
 
         else:
@@ -27,7 +31,7 @@ def list_of_pokemon():
             pokemon = requests.get(base)  # Vraagt de lijst met alle pokemon aan.
             pokemon_json = json.loads(pokemon.text)  # Decode de lijst met pokemon.
 
-            with open('pokemon_list.csv',
+            with open('./pokemon/pokemon_list.csv',
                       'w') as f:  # Als het bestand nog niet bestaat, maak deze dan aan en vul het met data
                 fieldnames = ['number', 'name', 'url']
                 w = csv.DictWriter(f, fieldnames=fieldnames, delimiter=';')
@@ -38,7 +42,7 @@ def list_of_pokemon():
                     w.writerow({'number': '{0:03}'.format(number), 'name': i['name'], 'url': i['url']})
                     number += 1
 
-    return lst_of_pokemon  # Zodat de data gebruikt kan worden in verdere functies en programma's
+    return lst_of_pokemon, pokemon_names  # Zodat de data gebruikt kan worden in verdere functies en programma's
 
 
 def gotta_catch_em_all(x):  # x is hier de input van het dropdown menu in het interface
@@ -121,3 +125,6 @@ def gotta_catch_em_all(x):  # x is hier de input van het dropdown menu in het in
                     {'attack_name': move_name1, 'attack_type': move_type1, 'attack_accuracy': move_accuracy1,
                      'attack_power': move_power1})  # Alle zojuist aangemaakte variabele worden in een dict gezet, en deze worden toegevoegd aan de lijst 'move_list'
     return moves_list  # returned de lijst met moves zodat het gebruik van de functie
+
+
+print(list_of_pokemon())
