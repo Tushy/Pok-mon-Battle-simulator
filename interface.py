@@ -1,7 +1,5 @@
 from tkinter import *
-from PIL import Image, ImageTk
 from app import gotta_catch_em_all, list_of_pokemon, read_stats
-#from stats import read_stats
 
 list_of_pokemon()
 
@@ -12,7 +10,6 @@ root.state('zoomed')
 root.grid_columnconfigure(0, weight=1, uniform='HALF')
 root.grid_columnconfigure(1, weight=1, uniform='HALF')
 root.grid_rowconfigure(0, weight=1)
-
 
 height = root.winfo_screenheight()
 width = root.winfo_screenwidth()
@@ -45,36 +42,53 @@ def OptionMenu_pokemon_1(event):
                             '\n Special Attack: '+read_stats(pokemon_1_var.get())[0]['special_attack']+
                             '\n Defense: '+read_stats(pokemon_1_var.get())[0]['defense']+
                             '\n Special Defense: '+read_stats(pokemon_1_var.get())[0]['special_defense'])
-    image_1_place = PhotoImage(file='./pokemon/%s/%s.csv' % pokemon_1_var.get())
-    image_1.config(image=image_1_place)
+    if pokemon_1_var != 'Kies Pokémon 1':
+        image_ophalen()
 
 
 def OptionMenu_pokemon_2(event):
-    listbox.insert('0',"BLUE HEEFT " +pokemon_2_var.get().upper() +' GEKOZEN!')
+    listbox.insert('0','BlUE HEEFT ' +pokemon_2_var.get().upper()+ ' GEKOZEN!') # laat zien welke pokemon er is gekozen
+    pokemon_1_type.config(text='MOVES POKÉMON ' +pokemon_2_var.get().upper()) # laat zien welke move er gebruikt word
+    gotta_catch_em_all(pokemon_2_var.get()) #Controleerd of er al een stats bestand is aangemaakt en maakt deze aan als deze er niet is. voor info zie app.py
+    pokemon_2_hp_number.config(text='HP: '+read_stats(pokemon_2_var.get())[0]['hp']) # haalt HP van pokemon op van database
+    pokemon_2_stats.config(text='Speed: '+read_stats(pokemon_2_var.get())[0]['speed']+
+                            '\n Attack: '+read_stats(pokemon_2_var.get())[0]['attack']+
+                            '\n Special Attack: '+read_stats(pokemon_2_var.get())[0]['special_attack']+
+                            '\n Defense: '+read_stats(pokemon_2_var.get())[0]['defense']+
+                            '\n Special Defense: '+read_stats(pokemon_2_var.get())[0]['special_defense'])
 
 pokemon_1 = OptionMenu(left, pokemon_1_var, *list_of_pokemon()[1], command= OptionMenu_pokemon_1) #get_pokemons komt vanaf bestand all_pokemon_to_file.py
 pokemon_2 = OptionMenu(right, pokemon_2_var, *list_of_pokemon()[1], command= OptionMenu_pokemon_2)
 pokemon_1.grid(row=0, column=0, sticky=NW)
 pokemon_2.grid(row=0, column=0, sticky=NW)
 
+def image_ophalen():
+    #image vervangen
+        image_1 = PhotoImage(file='./pokemon/'+pokemon_1_var.get()+'/'+pokemon_1_var.get()+'.png')
+        image_1.image = image_1
+        image_1_label.config(image=image_1)
 
 #plaatjes pokeballs en pokemons
-image_1 = Image.open('pokeball.jpg')
-image_2 = Image.open('pokeball.jpg')
-image_1 = image_1.resize((200, 160), Image.ANTIALIAS)
-image_2 = image_2.resize((200, 160), Image.ANTIALIAS)
-pokemon_1_img_load = ImageTk.PhotoImage(image_1)
-pokemon_2_img_load = ImageTk.PhotoImage(image_2)
-pokemon_1_img = Label(left, image=pokemon_1_img_load)
-pokemon_2_img = Label(right, image=pokemon_2_img_load)
-pokemon_1_img.grid(row=1, column=0, sticky='nw')
-pokemon_2_img.grid(row=1, column=0, sticky='nw')
+image_1 = PhotoImage(file='pokeball.gif')
+image_1_label = Label(left, image=image_1, bg='red')
+image_1_label.grid(row=1, column=0, sticky='W', padx=10, pady=20)
+image_1_label.image = image_1
+
+image_2 = PhotoImage(file='pokeball.gif')
+image_2_label = Label(right, image=image_2, bg='blue')
+image_2_label.grid(row=1, column=0, sticky='W', padx=10, pady=20)
+image_2_label.image = image_2
+
+
+
 
 #HP Positie
 pokemon_1_hp_number = ('')
-pokemon_1_hp_number = Label(left, text=''.join(pokemon_1_hp_number))
-pokemon_1_hp_number.grid(row=1, column=1, sticky='n')
-
+pokemon_1_hp_number = Label(left, text=''.join(pokemon_1_hp_number), bg='red')
+pokemon_1_hp_number.grid(row=0, column=1, sticky='nw')
+pokemon_2_hp_number = ('')
+pokemon_2_hp_number = Label(right, text=''.join(pokemon_2_hp_number), bg='blue')
+pokemon_2_hp_number.grid(row=0, column=1, sticky='nw')
 
 # Stats positie
 pokemon_1_stats = ('')
