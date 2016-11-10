@@ -1,7 +1,7 @@
 from tkinter import *
 from PIL import Image, ImageTk
-from app import gotta_catch_em_all, list_of_pokemon
-from stats import read_stats
+from app import gotta_catch_em_all, list_of_pokemon, read_stats
+#from stats import read_stats
 
 list_of_pokemon()
 
@@ -34,22 +34,19 @@ pokemon_2_var = StringVar(root)
 pokemon_1_var.set('Kies Pokémon 1')
 pokemon_2_var.set('Kies Pokémon 2')
 
-#pokemon ophalen uit app.py
-
-
 #events
 def OptionMenu_pokemon_1(event):
-    #get_pokemon_1.config(gotta_catch_em_all(text=pokemon_1_var.get()))
     listbox.insert('0','RED HEEFT ' +pokemon_1_var.get().upper()+ ' GEKOZEN!') # laat zien welke pokemon er is gekozen
     pokemon_1_type.config(text='MOVES POKÉMON ' +pokemon_1_var.get().upper()) # laat zien welke move er gebruikt word
-    pokemon_1_hp_number.config(text=read_stats(pokemon_1_var.get(), 'hp')) # haalt HP van pokemon op van database
-
-    #pokemon_1_speed.config(text=read_stats(pokemon_1_var.get(), 'speed'))
-    #pokemon_1_spattack.config(text=read_stats(pokemon_1_var.get(), 'special_attack'))
-    #pokemon_1_attack.config(text=read_stats(pokemon_1_var.get(), 'attack'))
-    #pokemon_1_defense.config(text=read_stats(pokemon_1_var.get(), 'special_defense'))
-    #pokemon_1_spdefense..config(text=read_stats(pokemon_1_var.get(), 'defense'))
-
+    gotta_catch_em_all(pokemon_1_var.get()) #Controleerd of er al een stats bestand is aangemaakt en maakt deze aan als deze er niet is. voor info zie app.py
+    pokemon_1_hp_number.config(text='HP: '+read_stats(pokemon_1_var.get())[0]['hp']) # haalt HP van pokemon op van database
+    pokemon_1_stats.config(text='Speed: '+read_stats(pokemon_1_var.get())[0]['speed']+
+                            '\n Attack: '+read_stats(pokemon_1_var.get())[0]['attack']+
+                            '\n Special Attack: '+read_stats(pokemon_1_var.get())[0]['special_attack']+
+                            '\n Defense: '+read_stats(pokemon_1_var.get())[0]['defense']+
+                            '\n Special Defense: '+read_stats(pokemon_1_var.get())[0]['special_defense'])
+    image_1_place = PhotoImage(file='./pokemon/%s/%s.csv' % pokemon_1_var.get())
+    image_1.config(image=image_1_place)
 
 
 def OptionMenu_pokemon_2(event):
@@ -73,29 +70,20 @@ pokemon_2_img = Label(right, image=pokemon_2_img_load)
 pokemon_1_img.grid(row=1, column=0, sticky='nw')
 pokemon_2_img.grid(row=1, column=0, sticky='nw')
 
-# HP
-pokemon_1_hp = ('HP')
-pokemon_1_hp = Label(left, text=''.join(pokemon_1_hp))
-pokemon_1_hp.grid(row=1, column=1, sticky='nw')
-
-# hp Nummer
-pokemon_1_hp_number = ('number')
+#HP Positie
+pokemon_1_hp_number = ('')
 pokemon_1_hp_number = Label(left, text=''.join(pokemon_1_hp_number))
 pokemon_1_hp_number.grid(row=1, column=1, sticky='n')
 
 
-# Stats
-pokemon_1_stats = ('Speed: ', 'Attack: ', 'Special Attack: ', 'Defence: ', 'Special Defence: ')
-pokemon_2_stats = ('Speed: ', 'Attack: ', 'Special Attack: ', 'Defence: ', 'Special Defence: ')
+# Stats positie
+pokemon_1_stats = ('')
+pokemon_2_stats = ('')
 pokemon_1_stats = Label(left, text='\n'.join(pokemon_1_stats), bg='red')
 pokemon_2_stats = Label(right,text='\n'.join(pokemon_2_stats), bg='blue')
 pokemon_1_stats.grid(row=1, column=1, sticky='w')
 pokemon_2_stats.grid(row=1, column=1, sticky='w')
-#pokemon_1_speed
-#pokemon_1_spattack
-#pokemon_1_attack
-#pokemon_1_defense
-#pokemon_1_spdefense
+
 
 
 #tekst onder plaatje
