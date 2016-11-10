@@ -9,8 +9,8 @@ from urllib import request
 def list_of_pokemon():
     "Haal alle pokemon namen en url's op."
     while 1:
-        if os.path.isfile('pokemon_list.csv'):
-            with open('pokemon_list.csv', 'r') as f:
+        if os.path.isfile('pokemon_list.csv'):  # Controlleer of er al een bestand bestaat dat pokemon_list.csv heet
+            with open('pokemon_list.csv', 'r') as f:  # Als het bestand al bestaat, voeg de data dan toe aan een lijst.
                 r = csv.DictReader(f, delimiter=';')
                 lst_of_pokemon = []
                 for i in r:
@@ -27,77 +27,97 @@ def list_of_pokemon():
             pokemon = requests.get(base)  # Vraagt de lijst met alle pokemon aan.
             pokemon_json = json.loads(pokemon.text)  # Decode de lijst met pokemon.
 
-            with open('pokemon_list.csv', 'w') as f:
+            with open('pokemon_list.csv',
+                      'w') as f:  # Als het bestand nog niet bestaat, maak deze dan aan en vul het met data
                 fieldnames = ['number', 'name', 'url']
                 w = csv.DictWriter(f, fieldnames=fieldnames, delimiter=';')
 
-                w.writeheader()
-                number = 1
-                for i in pokemon_json['results']:
+                w.writeheader()  # Schrijf de headers boven de rows
+                number = 1  # Pokémon beginnen met tellen op nummer 1
+                for i in pokemon_json['results']:  # Voeg de data toe aan het bestand met de volgende format
                     w.writerow({'number': '{0:03}'.format(number), 'name': i['name'], 'url': i['url']})
                     number += 1
 
-    return lst_of_pokemon
+    return lst_of_pokemon  # Zodat de data gebruikt kan worden in verdere functies en programma's
 
 
-def gotta_catch_em_all(x):
-    "Algemene functie voor alles wat met de pokémon te maken heeft. Stats en moves."
-    for i in list_of_pokemon():
+def gotta_catch_em_all(x):  # x is hier de input van het dropdown menu in het interface
+    "Algemene functie voor bijna alles wat met de pokémon te maken heeft. Stats en moves voornamelijk."
+    for i in list_of_pokemon():  # refereerd terug naar de bovenstaande functie
         if x == i['name']:
             STATS = requests.get(i['url'])  # Vraagt een nieuwe URL aan.
             pokemon_stats = json.loads(STATS.text)  # Decode de data in de nieuwe URL.
-    # Functie voor de eerste pokémon. Als deze al bestaat wordt de database gebruikt, anders wordt er een nieuwe entry gemaakt
-    bestandsnaam = './pokemon/%s/' % x
-    if not os.path.exists(bestandsnaam):  # kijkt of de input al bestaat in de map ./pokemon/
-        os.makedirs(bestandsnaam)
+    # Functie voor de pokémon. Als deze al een map heeft wordt de database gebruikt, anders wordt er een nieuwe map...
+    # gemaakt, en de data toegevoegd in een .csv bestand met de naam van de betreffende pokémon. Hier wordt ook de
+    # sprite van de pokémon opgehaald (en omgezet van .png(want dat werkt niet op mac) naar .jpg)
+
+    bestandsnaam = './pokemon/%s/' % x  # Variabele om sneller de locatie van de mappen te vinden en aan te maken...
+    #  mocht dit nodig zijn
+
+    if not os.path.exists(bestandsnaam):  # controlleert of er al een map is voor de pokémon
+        os.makedirs(bestandsnaam)  # Zo niet wordt er een map aangemaakt
         with open(bestandsnaam + 'stats.csv', encoding='utf-8',
-                  mode='w') as file:  # Als deze niet bestaat wordt dit aangemaakt
-            for i in list_of_pokemon():
+                  mode='w') as file:  # Hier wordt er een nieuw .csv bestand aangemaakt voor de stats van de pokémon
+            for i in list_of_pokemon():  # gebruikt de vorige functie's return om door de lijst met pokémon te lopen
                 if x == i['name']:
-                    naam = (i['name'])  # Zet de naam van de pokémon om in een variabele
+                    naam = (i['name'])  # Zet de naam van de pokémon om in een variabele voor later gebruik
                     fieldnames = ['name', 'type', 'speed', 'special_defense', 'special_attack', 'defense', 'attack',
-                                  'hp']  # definieert de veldnamen voor het .csv bestand
+                                  'hp']  # definieert de keys voor het .csv bestand, het is immers een dict :-)
                     writer = csv.DictWriter(file, fieldnames=fieldnames, delimiter=';', lineterminator='\n')
-                    writer.writeheader()
+                    writer.writeheader()  # maak de keys ook zichtbaar in het bestand
 
                     t = []  # Maakt een lijst aan voor de types
                     stats = {}  # Maakt een dictionary aan voor de stats
-                    for i in pokemon_stats['types']:  # Voegt de verschillende types toe aan de lijst t
+                    for i in pokemon_stats['types']:  # Voegt de verschillende types toe aan de lijst 't' ...
+                        # voor later gebruik?
                         t.append(i['type']['name'])
 
                     for i in pokemon_stats[
-                        'stats']:  # Voegt de verschillende stats met bijbehorende naam toe aan de dict met key=naam value=waarde van stat
+                        'stats']:  # Voegt de verschillende stats met bijbehorende naam toe aan de dict...
+                        # met key=naam value=waarde van stat
                         stats.update({(i['stat']['name']): (i['base_stat'])})
                     writer.writerow(
                         {'name': naam, 'type': t, 'speed': stats['speed'],
                          'special_defense': stats['special-defense'],
                          'special_attack': stats['special-attack'], 'defense': stats['defense'],
                          'attack': stats['attack'], 'hp': stats['hp']})  # schrijft de waardes naar het bestand
-                    request.urlretrieve(pokemon_stats['sprites']['front_default'], bestandsnaam + x + '.png')
+                    request.urlretrieve(pokemon_stats['sprites']['front_default'],
+                                        bestandsnaam + x + '.png')  # Haalt een sprite op van de pokémon
+
     # Haalt de moves op uit het JSON bestand en maakt een lijst met 4 dicts voor de moves
-    for i in list_of_pokemon():
+    for i in list_of_pokemon():  # Gebruikt de return van de functie voor het uitlezen van de lijst met namen van de pokémon
         if x == i['name']:
-            h = 0
-            lst = []
-            while h < 4:
-                r = randint(0, len(pokemon_stats['moves']) - 1)
-                if r not in lst:
-                    lst.append(r)
-                    h += 1
+            h = 0  # lege variabele met type int (gebruikt als counter)
+            lst = []  # lege lijst.. duh. Deze wordt gebruikt om de nummers van de move (ID's) op te slaan die hierna
+            #  worden gebruikt om de moves op te halen
+            while h < 4:  # Zolang de teller een waarde heeft van minder dan 4, doe dit
+                r = randint(0, len(pokemon_stats['moves']) - 1)  # genereert een random getal zodat de moves die een
+                #  pokémon krijgt random uit zijn beschikbare lijst met moves wordt gekozen. Het random getal mag niet
+                #  hoger zijn dan lengte van de lijst met moves, anders komt er een IndexError terug. Op deze
+                #  manier zijn bijna alle gevechten uniek, ook als de zelfde pokémon steeds opnieuw wordt gekozen.
+                if r not in lst:  # Controlleerd of het random gegenereerde getal al in de lijst voorkomt. ALs dit zo is
+                    #  moet er een nieuw getal worden gemaakt. We kunnen geen pokémon hebben die vier keer hypper beam heeft :-)
+                    lst.append(r)  # Voeg het random getal toe aan de lijst
+                    h += 1  # Teller eentje hoger maken zodat de pokémon niet al zijn moves krijgt die hij zou KUNNEN
+                    # leren, maar een limiet heeft van 4 moves
                 else:
-                    pass
-            c = 0
-            moves_list = []
-            while c < 4:
-                m = pokemon_stats['moves'][lst[c]]
+                    pass  # Als het getal wel in de lijst voorkomt moet er een nieuw getal worden gemaakt, dus pass
+                    #  en doe de functie maar weer opnieuw
+            c = 0  # Nogmaals een teller, dit keer een c, want waarom ook niet.
+            moves_list = []  # Lijst aanmaken voor het opslaan van de moves die de pokémon uiteindelijk krijgt wanneer
+            #  er op 'Fight!' wordt geklikt in het interface
+            while c < 4:  # Teller check, net als hierboven
+                m = pokemon_stats['moves'][lst[c]]  # Haal de moves uit de dict die bovenaan deze functie is aangevraagd
+                #  en kijk naar het random getal dat in 'lst' opgeslagen is met indexnummer 'c'.
+                #  Dit nummer correspondeerd met een nummer van een move. Sla de data die terug komt op in 'm'
                 MOVE = requests.get(m['move']['url'])  # Vraagt een nieuwe URL aan.
                 MOVE_JSON = json.loads(MOVE.text)  # Decode de data in de nieuwe URL.
-                move_name1 = m['move']['name']
+                move_name1 = m['move']['name']  # Gebruik de data van de opgehaalde URL voor deze variabele
                 move_type1 = MOVE_JSON['type']['name']
                 move_accuracy1 = MOVE_JSON['accuracy']
                 move_power1 = MOVE_JSON['power']
                 c += 1
                 moves_list.append(
                     {'attack_name': move_name1, 'attack_type': move_type1, 'attack_accuracy': move_accuracy1,
-                     'attack_power': move_power1})
-    return moves_list
+                     'attack_power': move_power1})  # Alle zojuist aangemaakte variabele worden in een dict gezet, en deze worden toegevoegd aan de lijst 'move_list'
+    return moves_list  # returned de lijst met moves zodat het gebruik van de functie
