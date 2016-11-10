@@ -1,11 +1,8 @@
-import os
-from time import sleep
+import requests
 
-c = 0
-while c != 3600:
-    ping = os.popen('ping pokeapi.co -n 1')
-    result = ping.readlines()
-    msLine = result[-1].strip()
-    print(msLine.split(' = ')[-1])
-    c += 60
-    sleep(60)
+
+def ping():
+    try:
+        ping = requests.get('http://pokeapi.co/api/v2/')
+    except:
+        return 'U heeft internet nodig voor dit programma'
