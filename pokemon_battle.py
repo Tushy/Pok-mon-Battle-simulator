@@ -7,21 +7,10 @@ import csv
 import os
 from random import randint
 from all_pokemon_to_file import get_pokemons
+from app import list_of_pokemon, gotta_catch_em_all
+from read_stats import get_stats
+from ping import ping
 
-
-try:
-    POKE_API = requests.get('http://pokeapi.co/api/v2')  # Vraagt de data aan.
-    POKE_API_JSON = json.loads(POKE_API.text)  # Decode de JSON data.
-    base = POKE_API_JSON['pokemon']  # Navigeert naar de basis van de informatie
-
-    base += '?limit=151'  # Limit van 151 pokemon (dit is een extensie van de website URL)
-
-    pokemon = requests.get(base)  # Vraagt de lijst met alle pokemon aan.
-    pokemon_json = json.loads(pokemon.text)  # Decode de lijst met pokemon.
-except:
-    print('no internet')
-
-print('1')
 
 
 class pokemonThread(threading.Thread):
@@ -31,95 +20,55 @@ class pokemonThread(threading.Thread):
         self.name = name
 
     def run(self):
-        pokemon(self.name)
-
+        self.move_lijst = gotta_catch_em_all(self.name)
+        self.hp = get_stats(self.name, 'EffHp') * 10
+        self.speed = get_stats(self.name, 'speed')
+        self.EffAtt = get_stats(self.name,'EffAtt')
+        self.attack_power1 = self.move_lijst[0]["attack_power"]
+        self.attack_power2 = self.move_lijst[1]["attack_power"]
+        self.attack_power3 = self.move_lijst[2]["attack_power"]
+        self.attack_power4 = self.move_lijst[3]["attack_power"]
+        self.attack_name1 = self.move_lijst[0]["attack_name"]
+        self.attack_name2 = self.move_lijst[1]["attack_name"]
+        self.attack_name3 = self.move_lijst[2]["attack_name"]
+        self.attack_name4 = self.move_lijst[3]["attack_name"]
+    '''
     def load_moves(self):
-        self.attack_power1 = read_moves(self.name, 'p')[0]
-        self.attack_power2 = read_moves(self.name, 'p')[1]
-        self.attack_power3 = read_moves(self.name, 'p')[2]
-        self.attack_power4 = read_moves(self.name, 'p')[3]
-        self.attack_name1 = read_moves(self.name, 'n')[0]
-        self.attack_name2 = read_moves(self.name, 'n')[1]
-        self.attack_name3 = read_moves(self.name, 'n')[2]
-        self.attack_name4 = read_moves(self.name, 'n')[3]
-
-    def load_hp(self):
-        self.hp = get_hp()
-
+        self.attack_power1 = self.move_lijst[0]["attack_power"]
+        self.attack_power2 = self.move_lijst[1]["attack_power"]
+        self.attack_power3 = self.move_lijst[2]["attack_power"]
+        self.attack_power4 = self.move_lijst[3]["attack_power"]
+        self.attack_name1 = self.move_lijst[0]["attack_name"]
+        self.attack_name2 = self.move_lijst[1]["attack_name"]
+        self.attack_name3 = self.move_lijst[2]["attack_name"]
+        self.attack_name4 = self.move_lijst[3]["attack_name"]
+'''
     def change_hp(self, damage):
-        self.hp = self.hp - damage
-        return (self.hp)
+        self.hp = self.hp - damage * int(self.EffAtt)
+        listbox.insert('0', str('{0} health: {1}'.format(self.name, self.hp)))
+        check_game_winner()
+        return ()
 
 
-def get_hp():
-    return (125)
+def lock():
+    pokemon_2_move_1.configure(state='disabled')
+    pokemon_2_move_2.configure(state='disabled')
+    pokemon_2_move_3.configure(state='disabled')
+    pokemon_2_move_4.configure(state='disabled')
+    pokemon_1_move_1.configure(state='disabled')
+    pokemon_1_move_2.configure(state='disabled')
+    pokemon_1_move_3.configure(state='disabled')
+    pokemon_1_move_4.configure(state='disabled')
 
 
-def pokemon(x):
-    'Functie voor de eerste pokémon. Als deze al bestaat wordt de database gebruikt, anders wordt er een nieuwe entry gemaakt'
-    inputerino = x
-    if not os.path.exists('./pokemon/%s/stats.csv' % inputerino):  # kijkt of de input al bestaat in de map ./pokemon/
-        os.makedirs('./pokemon/%s/' % inputerino)
-        with open('./pokemon/%s/stats.csv' % inputerino, encoding='utf-8',
-                  mode='w') as file:  # Als deze niet bestaat wordt dit aangemaakt
-            for i in pokemon_json['results']:
-                if inputerino == i['name']:
-                    naam = (i['name'])  # Zet de naam van de pokémon om in een variabele
-                    fieldnames = ['name', 'type', 'speed', 'special_defense', 'special_attack', 'defense', 'attack',
-                                  'hp']  # definieert de veldnamen voor het .csv bestand
-                    writer = csv.DictWriter(file, fieldnames=fieldnames, delimiter=';', lineterminator='\n')
-                    writer.writeheader()
-                    STATS = requests.get(i['url'])  # Vraagt een nieuwe URL aan.
-                    STATS_JSON = json.loads(STATS.text)  # Decode de data in de nieuwe URL.
-                    t = []  # Maakt een lijst aan voor de types
-                    stats = {}  # Maakt een dictionary aan voor de stats
-                    for i in STATS_JSON['types']:  # Voegt de verschillende types toe aan de lijst t
-                        t.append(i['type']['name'])
-                    for i in STATS_JSON[
-                        'stats']:  # Voegt de verschillende stats met bijbehorende naam toe aan de dict met key=naam value=waarde van stat
-                        stats.update({(i['stat']['name']): (i['base_stat'])})
-                    writer.writerow(
-                        {'name': naam, 'type': t, 'speed': stats['speed'], 'special_defense': stats['special-defense'],
-                         'special_attack': stats['special-attack'], 'defense': stats['defense'],
-                         'attack': stats['attack'], 'hp': stats['hp']})  # schrijft de waardes naar het bestand
-                    moves(inputerino)
+def check_game_winner():
+    if thread1.hp <= 0:
+        lock()
+    elif thread2.hp <= 0:
+        lock()
     else:
-        moves(inputerino)
-
-
-def moves(x):
-    inputerino = x
-    for i in pokemon_json['results']:
-        if inputerino == i['name']:
-            STATS = requests.get(i['url'])  # Vraagt een nieuwe URL aan.
-            STATS_JSON = json.loads(STATS.text)  # Decode de data in de nieuwe URL.
-            with open('./pokemon/%s/moves.csv' % inputerino, encoding='utf-8', mode='w') as file2:
-                veldnamen = ['attack_name', 'attack_type', 'attack_accuracy', 'attack_power']
-                schrijver = csv.DictWriter(file2, fieldnames=veldnamen, delimiter=';', lineterminator='\n')
-                schrijver.writeheader()
-                h = 0
-                lst = []
-                while h < 4:
-                    r = randint(0, len(STATS_JSON['moves']))
-                    if r not in lst:
-                        lst.append(r)
-                        h += 1
-                    else:
-                        pass
-                c = 0
-                print(lst)
-                while c < 4:
-                    m = STATS_JSON['moves'][lst[c]]
-                    MOVE = requests.get(m['move']['url'])  # Vraagt een nieuwe URL aan.
-                    MOVE_JSON = json.loads(MOVE.text)  # Decode de data in de nieuwe URL.
-                    move_name1 = m['move']['name']
-                    move_type1 = MOVE_JSON['type']['name']
-                    move_accuracy1 = MOVE_JSON['accuracy']
-                    move_power1 = MOVE_JSON['power']
-                    c += 1
-                    schrijver.writerow(
-                        {'attack_name': move_name1, 'attack_type': move_type1, 'attack_accuracy': move_accuracy1,
-                         'attack_power': move_power1})
+        #neiamd heeft nog verloren
+        return()
 
 
 global turn_player
@@ -139,11 +88,11 @@ def check_turn(x):
     else:
         return (False)
 
-
+'''
 def read_moves(pokemon, soort):
     with open('./pokemon/%s/moves.csv' % pokemon, 'r') as file:
         r = csv.DictReader(file, delimiter=';')
-        lijst_moves = []
+        lijst_moves = algemeen()
         for moves in r:
             attack_name = moves['attack_name']
             attack_type = moves['attack_type']
@@ -159,18 +108,22 @@ def read_moves(pokemon, soort):
                 lijst_moves.append(attack_type)
 
         return (lijst_moves)
-
-
+'''
+global threadLock
+global thread
+threadLock = threading.Lock()
+threads = []
 def create_threads(pokemon1, pokemon2):
-    threadLock = threading.Lock()
-    threads = []
+    global threadLock
+    #threadLock = threading.Lock()
+    #threads = []
     # Create new threads
     # pokemon1 = input('choose pokemon 1')
     # pokemon2 = input('choose pokemon 2')
     global thread1
     global thread2
-    thread1 = pokemonThread(1, pokemon1, 1)
-    thread2 = pokemonThread(2, pokemon2, 2)
+    thread1 = pokemonThread(1, pokemon1.lower(), 1)
+    thread2 = pokemonThread(2, pokemon2.lower(), 2)
 
     # Start new Threads
     thread1.start()
@@ -183,31 +136,17 @@ def create_threads(pokemon1, pokemon2):
 
     thread1.join()
     thread2.join()
-    thread1.load_hp()
-    thread2.load_hp()
-    thread1.load_moves()
-    thread2.load_moves()
     print(thread1.attack_power1)
     print(threading.enumerate())
-'''
-def p1_attack1():
-    if check_turn(1) == True:
-        listbox.insert('0', str('Pokemon 1 did ' ), thread1.attack_name1)
-        try:
-            thread2.change_hp(int(thread1.attack_power1))
-        except:
-            pass
-        print(thread2.change_hp(0))
-'''
-create_threads('mew', 'muk')
 
 
 
+
+list_of_pokemon()
 
 root = Tk()
 root.wm_title('PBS - Pokémon Battle Station')
 root.state('zoomed')
-
 
 root.grid_columnconfigure(0, weight=1, uniform='HALF')
 root.grid_columnconfigure(1, weight=1, uniform='HALF')
@@ -236,10 +175,18 @@ pokemon_2_var.set('Kies Pokémon 2')
 
 
 #drop down menu pokemon
-pokemon_1 = OptionMenu(left, pokemon_1_var, *get_pokemons()) #get_pokemons komt vanaf bestand all_pokemon_to_file.py
-pokemon_2 = OptionMenu(right, pokemon_2_var, *get_pokemons())
+def OptionMenu_pokemon_1(event):
+    listbox.insert('0','RED HEEFT ' +pokemon_1_var.get().upper()+ ' GEKOZEN!')
+    pokemon_1_type.config(text='MOVES POKÉMON ' +pokemon_1_var.get().upper())
+def OptionMenu_pokemon_2(event):
+    listbox.insert('0',"BLUE HEEFT " +pokemon_2_var.get().upper() +' GEKOZEN!')
+
+pokemon_1 = OptionMenu(left, pokemon_1_var, *get_pokemons(), command= OptionMenu_pokemon_1) #get_pokemons komt vanaf bestand all_pokemon_to_file.py
+pokemon_2 = OptionMenu(right, pokemon_2_var, *get_pokemons(), command= OptionMenu_pokemon_2)
 pokemon_1.grid(row=0, column=0, sticky=NW)
 pokemon_2.grid(row=0, column=0, sticky=NW)
+
+
 
 
 #plaatjes pokeballs en pokemons
@@ -254,30 +201,30 @@ pokemon_2_img = Label(right, image=pokemon_2_img_load)
 pokemon_1_img.grid(row=1, column=0, sticky='nw')
 pokemon_2_img.grid(row=1, column=0, sticky='nw')
 
-#tekst onder plaatje
-pokemon_1_type = Label(left, text='MOVES POKÉMON')
-pokemon_2_type = Label(right, text='MOVES POKÉMON')
-pokemon_1_type.grid(row=2, column=0, sticky=NW)
-pokemon_2_type.grid(row=2, column=0, sticky=NW)
-
 # Stats
 pokemon_1_stats = ('HP', 'Attack Power')
 pokemon_2_stats = ('HP', 'Attack Power')
 pokemon_1_stats = Label(left, text='\n\n'.join(pokemon_1_stats))
 pokemon_2_stats = Label(right, text='\n\n'.join(pokemon_2_stats))
-pokemon_1_stats.grid(row=1, column=1, sticky='nw')
-pokemon_2_stats.grid(row=1, column=1, sticky='nw')
+pokemon_1_stats.grid(row=1, column=1, sticky='w')
+pokemon_2_stats.grid(row=1, column=1, sticky='w')
 
+#tekst onder plaatje
+pokemon_1_type = Label(left, text='MOVES POKÉMON ')
+pokemon_2_type = Label(right, text='MOVES POKÉMON ')
+pokemon_1_type.grid(row=2, column=0, sticky=NW)
+pokemon_2_type.grid(row=2, column=0, sticky=NW)
+
+
+#buttons moves pokémon 1
 #buttons moves pokémon 1
 def p1_attack1():
     if check_turn(1) == True:
-        listbox.insert('0', str('Pokemon 1 did ' ), thread1.attack_name1)
         try:
+            listbox.insert('0', str('Pokemon 1 used {0}'.format(thread1.attack_name1)))
             thread2.change_hp(int(thread1.attack_power1))
         except:
-            pass
-        print(thread1.attack_power1)
-        print(thread2.change_hp(0))
+            listbox.insert('0', str('no damage was done'))
 def p1_attack2():
     if check_turn(1) == True:
         listbox.insert('0', str('Pokemon 1 did ' ), thread1.attack_name1)
@@ -285,12 +232,11 @@ def p1_attack2():
             thread2.change_hp(int(thread1.attack_power2))
         except:
             pass
-        print('power is', thread1.attack_power2)
-        print('power is', thread2.change_hp(0))
 def p1_attack3():
     listbox.insert('0', str(pokemon_1_var.get().upper() + ' is using attack 3'))
 def p1_attack4():
     listbox.insert('0', str(pokemon_1_var.get().upper() + ' is using attack 4'))
+
 
 pokemon_1_move_1 = Button(left, padx=100, pady= 1, text='attack 1', command=p1_attack1)
 pokemon_1_move_1.grid(row=3, column=0,sticky=W )
@@ -307,26 +253,24 @@ pokemon_1_move_4.grid(row=4, column=1, sticky=W)
 #buttons moves pokémon 2
 def p2_attack1():
     if check_turn(2) == True:
-        listbox.insert('0', str('Pokemon 2 did ' ), thread2.attack_name1)
-    try:
-        thread1.change_hp(int(thread2.attack_power1))
-    except:
-        pass
-    print('power is',thread2.attack_power1)
-    print('hp is', thread2.change_hp(0))
+        listbox.insert('0', str('Pokemon 2 used: {0}').format(thread2.attack_name1))
+        try:
+            thread1.change_hp(int(thread2.attack_power1))
+        except:
+            listbox.insert('0',str('No damage is done'))
+
 def p2_attack2():
     if check_turn(2) == True:
-        listbox.insert('0', str('Pokemon 2 did ' ), thread2.attack_name1)
+        listbox.insert('0', str('Pokemon 2 used: {0}').format(thread2.attack_name2))
         try:
             thread1.change_hp(int(thread2.attack_power2))
         except:
             pass
-        print('power is', thread2.attack_power2)
-        print('hp is', thread2.change_hp(0))
 def p2_attack3():
     listbox.insert('0', str(pokemon_2_var.get().upper() + ' is using attack 3'))
 def p2_attack4():
     listbox.insert('0', str(pokemon_2_var.get().upper() + ' is using attack 4'))
+
 
 pokemon_2_move_1 = Button(right, padx=100, pady= 1, text='attack 1', command=p2_attack1)
 pokemon_2_move_1.grid(row=3, column=0,sticky=W )
@@ -342,8 +286,13 @@ pokemon_2_move_4.grid(row=7, column=1, sticky=W)
 
 # Start functie
 def callback():
+    create_threads(pokemon_1_var.get().upper(), pokemon_2_var.get().upper())
+    pokemon_1.configure(state="disabled")
+    pokemon_2.configure(state="disabled")
+    start.destroy()
     listbox.insert('0', str('Speler Red  kiest: ' + pokemon_1_var.get().upper() + '!'))
     listbox.insert('0', str('Speler Blue kiest: ' + pokemon_2_var.get().upper() + '!'))
+
 
 
 #scroll text box
@@ -352,12 +301,12 @@ scrollbar.pack(side=RIGHT, fill=Y)
 listbox = Listbox(bottom, yscrollcommand=scrollbar.set, width=width)
 listbox.pack(side=LEFT, fill=BOTH)
 scrollbar.config(command=listbox.yview)
-
+#kijkt voor internet
+listbox.insert('0', ping())
 
 
 start = Button(text='Fight!', command=callback)
 start.place(relx=0.5, rely=0.5, anchor=CENTER)
-
 
 
 root.mainloop()
