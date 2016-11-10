@@ -44,8 +44,7 @@ def OptionMenu_pokemon_1(event):
                             '\n Special Defense: '+read_stats(pokemon_1_var.get())[0]['special_defense'])
     if pokemon_1_var != 'Kies Pokémon 1':
         image_ophalen1()
-    if pokemon_1_var != 'Kies Pokémon 1':
-        image_ophalen2()
+
 
 def OptionMenu_pokemon_2(event):
     listbox.insert('0','BlUE HEEFT ' +pokemon_2_var.get().upper()+ ' GEKOZEN!') # laat zien welke pokemon er is gekozen
@@ -57,7 +56,8 @@ def OptionMenu_pokemon_2(event):
                             '\n Special Attack: '+read_stats(pokemon_2_var.get())[0]['special_attack']+
                             '\n Defense: '+read_stats(pokemon_2_var.get())[0]['defense']+
                             '\n Special Defense: '+read_stats(pokemon_2_var.get())[0]['special_defense'])
-
+    if pokemon_2_var != 'Kies Pokémon 2':
+        image_ophalen2()
 pokemon_1 = OptionMenu(left, pokemon_1_var, *list_of_pokemon()[1], command= OptionMenu_pokemon_1) #get_pokemons komt vanaf bestand all_pokemon_to_file.py
 pokemon_2 = OptionMenu(right, pokemon_2_var, *list_of_pokemon()[1], command= OptionMenu_pokemon_2)
 pokemon_1.grid(row=0, column=0, sticky=NW)
