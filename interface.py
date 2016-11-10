@@ -34,19 +34,29 @@ pokemon_2_var = StringVar(root)
 pokemon_1_var.set('Kies Pokémon 1')
 pokemon_2_var.set('Kies Pokémon 2')
 
-#pokemon label hp
+#pokemon ophalen uit app.py
 
-#drop down menu pokemon
+
+#events
 def OptionMenu_pokemon_1(event):
-    listbox.insert('0','RED HEEFT ' +pokemon_1_var.get().upper()+ ' GEKOZEN!')
-    pokemon_1_type.config(text='MOVES POKÉMON ' +pokemon_1_var.get().upper())
-    pokemon_1_hp_number.config(text=read_stats(pokemon_1_var.get(), 'hp'))
+    #get_pokemon_1.config(gotta_catch_em_all(text=pokemon_1_var.get()))
+    listbox.insert('0','RED HEEFT ' +pokemon_1_var.get().upper()+ ' GEKOZEN!') # laat zien welke pokemon er is gekozen
+    pokemon_1_type.config(text='MOVES POKÉMON ' +pokemon_1_var.get().upper()) # laat zien welke move er gebruikt word
+    pokemon_1_hp_number.config(text=read_stats(pokemon_1_var.get(), 'hp')) # haalt HP van pokemon op van database
+
+    #pokemon_1_speed.config(text=read_stats(pokemon_1_var.get(), 'speed'))
+    #pokemon_1_spattack.config(text=read_stats(pokemon_1_var.get(), 'special_attack'))
+    #pokemon_1_attack.config(text=read_stats(pokemon_1_var.get(), 'attack'))
+    #pokemon_1_defense.config(text=read_stats(pokemon_1_var.get(), 'special_defense'))
+    #pokemon_1_spdefense..config(text=read_stats(pokemon_1_var.get(), 'defense'))
+
+
 
 def OptionMenu_pokemon_2(event):
     listbox.insert('0',"BLUE HEEFT " +pokemon_2_var.get().upper() +' GEKOZEN!')
 
-pokemon_1 = OptionMenu(left, pokemon_1_var, *list_of_pokemon(), command= OptionMenu_pokemon_1) #get_pokemons komt vanaf bestand all_pokemon_to_file.py
-pokemon_2 = OptionMenu(right, pokemon_2_var, *list_of_pokemon(), command= OptionMenu_pokemon_2)
+pokemon_1 = OptionMenu(left, pokemon_1_var, *list_of_pokemon()[1], command= OptionMenu_pokemon_1) #get_pokemons komt vanaf bestand all_pokemon_to_file.py
+pokemon_2 = OptionMenu(right, pokemon_2_var, *list_of_pokemon()[1], command= OptionMenu_pokemon_2)
 pokemon_1.grid(row=0, column=0, sticky=NW)
 pokemon_2.grid(row=0, column=0, sticky=NW)
 
@@ -81,6 +91,11 @@ pokemon_1_stats = Label(left, text='\n'.join(pokemon_1_stats), bg='red')
 pokemon_2_stats = Label(right,text='\n'.join(pokemon_2_stats), bg='blue')
 pokemon_1_stats.grid(row=1, column=1, sticky='w')
 pokemon_2_stats.grid(row=1, column=1, sticky='w')
+#pokemon_1_speed
+#pokemon_1_spattack
+#pokemon_1_attack
+#pokemon_1_defense
+#pokemon_1_spdefense
 
 
 #tekst onder plaatje
