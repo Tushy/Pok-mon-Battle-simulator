@@ -8,6 +8,10 @@ from type_chart import get_types
 #haalt de lijst van pokemons op
 list_of_pokemon()
 get_types()
+global thread
+global turn_player
+
+
 class pokemonThread(threading.Thread):
     '''
     elke tread die word gecreert staat voor een pokemon
@@ -31,6 +35,7 @@ class pokemonThread(threading.Thread):
         self.attack_power1 = self.move_lijst[0]["attack_power"]
         self.attack_power2 = self.move_lijst[1]["attack_power"]
         self.attack_power3 = self.move_lijst[2]["attack_power"]
+
         self.attack_power4 = self.move_lijst[3]["attack_power"]
         self.attack_name1 = self.move_lijst[0]["attack_name"]
         self.attack_name2 = self.move_lijst[1]["attack_name"]
@@ -42,6 +47,7 @@ class pokemonThread(threading.Thread):
         self.attack_type2 = self.move_lijst[1]["attack_type"]
         self.attack_type3 = self.move_lijst[2]["attack_type"]
         self.attack_type4 = self.move_lijst[3]["attack_type"]
+
 
 
 
@@ -73,8 +79,6 @@ def check_game_winner():
     else:
         #neiamd heeft nog verloren
         return()
-global turn_player
-turn_player = 1
 def check_turn(x):
     global turn_player
     if x == turn_player:
@@ -87,11 +91,8 @@ def check_turn(x):
         return (True)
     else:
         return (False)
-global threadLock
-global thread
 def create_threads(pokemon1, pokemon2):
     global threadLock
-    #threadLock = threading.Lock()
     threads = []
     # Create new threads
     # pokemon1 = input('choose pokemon 1')
@@ -109,9 +110,22 @@ def create_threads(pokemon1, pokemon2):
     if thread2.speed >= thread1.speed:
         global turn_player
         turn_player = 2
+    else:
+        turn_player = 1
+    listbox.insert('0', str('player {} starts'.format(turn_player)))
     # Add threads to thread list
     threads.append(thread1)
     threads.append(thread2)
+def image_ophalen1():
+    #image vervangen
+        image_1 = PhotoImage(file='./pokemon/'+pokemon_1_var.get()+'/'+pokemon_1_var.get()+'.png')
+        image_1.image = image_1
+        image_1_label.config(image=image_1)
+def image_ophalen2():
+    #image vervangen
+        image_2 = PhotoImage(file='./pokemon/'+pokemon_2_var.get()+'/'+pokemon_2_var.get()+'.png')
+        image_2.image = image_2
+        image_2_label.config(image=image_2)
 
 
 
@@ -159,10 +173,7 @@ def OptionMenu_pokemon_1(event):
                             '\n Special Attack: '+read_stats(pokemon_1_var.get())[0]['special_attack']+
                             '\n Defense: '+read_stats(pokemon_1_var.get())[0]['defense']+
                             '\n Special Defense: '+read_stats(pokemon_1_var.get())[0]['special_defense'])
-    #image_1 = PhotoImage(file='./pokemon/'+pokemon_1_var.get()+'/'+pokemon_1_var.get()+'.gif')
-    #image_1.image = image_1
-
-    #image_1_label.config(image=image_1)
+    image_ophalen1()
 
 def OptionMenu_pokemon_2(event):
     listbox.insert('0','BlUE HEEFT ' +pokemon_2_var.get().upper()+ ' GEKOZEN!') # laat zien welke pokemon er is gekozen
@@ -174,6 +185,7 @@ def OptionMenu_pokemon_2(event):
                             '\n Special Attack: '+read_stats(pokemon_2_var.get())[0]['special_attack']+
                             '\n Defense: '+read_stats(pokemon_2_var.get())[0]['defense']+
                             '\n Special Defense: '+read_stats(pokemon_2_var.get())[0]['special_defense'])
+    image_ophalen2()
 
 pokemon_1 = OptionMenu(left, pokemon_1_var, *list_of_pokemon()[1], command= OptionMenu_pokemon_1) #get_pokemons komt vanaf bestand all_pokemon_to_file.py
 pokemon_2 = OptionMenu(right, pokemon_2_var, *list_of_pokemon()[1], command= OptionMenu_pokemon_2)
