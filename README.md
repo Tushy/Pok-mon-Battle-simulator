@@ -50,7 +50,6 @@ Vereisten:
 -	Om Pokémon Battle Simulator te spelen heb je een internet connectie nodig. 
 -	OS vereisten:
 o	Window 7/8/10
-o	macOS 10.12 Sierra
 
 __________________________________________________________________________________________________
 
