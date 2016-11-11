@@ -144,7 +144,7 @@ def image_ophalen2():
 
 
 root = Tk()
-root.wm_title('PBS - Pokémon Battle Station')
+root.wm_title('PBS - Pokémon Battle Simulator')
 root.state('zoomed')
 
 root.grid_columnconfigure(0, weight=1, uniform='HALF')
