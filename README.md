@@ -6,6 +6,7 @@ ________________________________________________________________________________
 1. Beschrijving en gebruikershandleiding Pokémon Battle Simulator
 2. Handige tool
 3. Systeemvereisten
+
 __________________________________________________________________________________________________
 
 Welkom bij Pokémon Battle Simulator (PBS)
