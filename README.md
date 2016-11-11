@@ -7,6 +7,7 @@ ________________________________________________________________________________
 2. Handige tool
 3. Systeemvereisten
 __________________________________________________________________________________________________
+
 Welkom bij Pokémon Battle Simulator (PBS)
 
 Dit is een programma om twee Pokémon met elkaar te vergelijken, en een gevecht te simuleren. 
