@@ -6,6 +6,7 @@ ________________________________________________________________________________
 1. Beschrijving en gebruikershandleiding Pokémon Battle Simulator
 2. Handige tool
 3. Systeemvereisten
+4. Nawoord van de makers
 
 __________________________________________________________________________________________________
 
@@ -42,11 +43,20 @@ Om het spel te kunnen spelen via Python 3.4 moet je eerst een aantal modules dow
 Download de volgende modules via PIP:
 -	Pip install json
 -	Pip install requests
--	Pip install 
 
 Vereisten:
 -	Om Pokémon Battle Simulator te spelen heb je een internet connectie nodig. 
 -	OS vereisten:
 o	Window 7/8/10
 o	macOS 10.12 Sierra
--	
+
+__________________________________________________________________________________________________
+
+
+Wij hebben er voor gekozen om veel functies op te nemen in één bestand zodat alle data centraal opgehaald worden. Dit is gedaan om de
+hoeveelheid requests naar de server van de API te verminderen en de applicatie sneller te laten laden. Wij hebben hierdoor ook 
+geprobeert om alle relevante data op te slaan in variabele zodat de functie ook zo min mogelijk wordt gebruikt.
+Er zijn een aantal modules gebruikt tijdens de ontwikkeling maar zijn er daar achter gekomen dat dit niet werkt op mac, waardoor we
+daar omheen hebben moeten werken.
+Wij hebben gebruik gemaakt van threading om de data van de Pokémon tegelijk op te halen zodat het minder lang duurt om de data van
+de Pokémon te laden.
