@@ -12,6 +12,8 @@ ________________________________________________________________________________
 
 Welkom bij Pokémon Battle Simulator (PBS)
 
+Om het programma te starten open je "PBS.py".
+
 Dit is een programma om twee Pokémon met elkaar te vergelijken, en een gevecht te simuleren. 
 Het programma is te gebruiken met één speler en met twee spelers. 
 
