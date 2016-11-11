@@ -2,11 +2,11 @@
 Pokémon battle sim
 READ ME PBS
 POKÉMON BATTLE SIMULATOR
-######################################################################################################################################
+__________________________________________________________________________________________________
 1. Beschrijving en gebruikershandleiding Pokémon Battle Simulator
 2. Handige tool
 3. Systeemvereisten
-######################################################################################################################################
+__________________________________________________________________________________________________
 Welkom bij Pokémon Battle Simulator (PBS)
 
 Dit is een programma om twee Pokémon met elkaar te vergelijken, en een gevecht te simuleren. 
@@ -28,12 +28,13 @@ weer staan.
 
 Het gevecht is afgelopen als één van de twee Pokémon geen HP meer heeft en knock-out is gegaan.
 Gefeliciteerd aan de winnaar!
-######################################################################################################################################
+
+__________________________________________________________________________________________________
 
 De stats, moves, sprites en namen van alle Pokémons worden gehaald van de PokeApi. 
 In de tools map staat een programma dat gebruikt kan worden om te testen of de PokeAPI beschikbaar is voor communicatie.
 
-######################################################################################################################################
+__________________________________________________________________________________________________
 
 Om het spel te kunnen spelen via Python 3.4 moet je eerst een aantal modules downloaden. 
 Download de volgende modules via PIP:
