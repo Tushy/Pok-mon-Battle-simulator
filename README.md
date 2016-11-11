@@ -49,7 +49,8 @@ Download de volgende modules via PIP:
 Vereisten:
 -	Om Pokémon Battle Simulator te spelen heb je een internet connectie nodig. 
 -	OS vereisten:
-o	Window 7/8/10
+
+o	Windows 7/8/10
 
 __________________________________________________________________________________________________
 
