@@ -4,7 +4,6 @@ import csv
 import os
 from random import randint
 from urllib import request
-from damage_calc import damage_type_calculator
 
 
 def list_of_pokemon():
